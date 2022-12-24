@@ -1,5 +1,18 @@
 import re
+import time
+from datetime import datetime
+from datetime import date
 
-link = '<h1 class="css-swd4zc-TextStyled er34gjf0" data-cy="ad_title">Комнаты для женщин.     Места в женских комнатах.</h1>'
-match = re.match(r'''^.*\">(.*)\</.*$''',link)
-print (match.group(1))
+last_added_time = datetime.now()
+today = date.today()
+link = 'dzisiaj o 12:37'
+match = re.match(r'''dzisiaj''',link)
+if match:
+    time_str = re.findall(r'\d+:\d+',link)
+    time_added = datetime.strptime(str(time_str), "['%H:%M']").time()
+    final_time = datetime.combine(date.today(), time_added)
+    if last_added_time < final_time:
+        print('Send message')
+    else:
+        print('Skip')
+
